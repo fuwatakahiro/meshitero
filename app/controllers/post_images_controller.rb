@@ -1,21 +1,22 @@
 class PostImagesController < ApplicationController
   def index
-    @post_images = Post_iamge.all
+    @post_images = PostImage.all
   end
   def new
-    @post_image = Post_iamge.new
+    @post_image = PostImage.new
   end
   def create
-    post_iamge = Post_image.new(post_iamge_params)
-    post_iamge.save
-    redirect_to
+    @post_image = PostImage.new(post_iamge_params)
+    @post_image.user_id = current_user.id
+    @post_image.save
+    redirect_to post_images_path
   end
   def show
-    @post_iamge = Post_image.find(params[:id])
+    @post_iamge = PostImage.find(params[:id])
   end
   
-  # private
-  # # def post_iamge_params
-  # #   params.require(:post_iamge),permit()
-  # # end
+  private
+  def post_iamge_params
+    params.require(:post_image).permit(:shop_name, :caption, :image)
+  end
 end
